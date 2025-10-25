@@ -1,4 +1,4 @@
-package com.example.sokrio_users
+package com.sokrio.app
 
 import io.flutter.embedding.android.FlutterActivity
 
