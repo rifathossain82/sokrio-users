@@ -69,3 +69,8 @@ class ParseFailure extends Failure {
 class UnknownFailure extends Failure {
   UnknownFailure(super.message);
 }
+
+/// Cache error
+class CacheFailure extends Failure {
+  CacheFailure(super.message);
+}
