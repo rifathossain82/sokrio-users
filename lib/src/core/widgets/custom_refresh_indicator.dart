@@ -12,13 +12,15 @@ class CustomRefreshIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: onRefresh,
-      child: Stack(
-        children: [
-          ListView(),
-          child,
-        ],
+    return SafeArea(
+      child: RefreshIndicator(
+        onRefresh: onRefresh,
+        child: Stack(
+          children: [
+            ListView(),
+            child,
+          ],
+        ),
       ),
     );
   }
