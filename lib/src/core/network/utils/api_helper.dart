@@ -3,7 +3,13 @@ import 'package:dio/dio.dart';
 import 'package:sokrio_users/src/core/core.dart';
 
 class ApiHelper {
-  static Future<Either<Failure, T>> safeApiCall<T>(Future<T> Function() request) async {
+  static Future<Either<Failure, T>> safeApiCall<T>(
+    Future<T> Function() request,
+  ) async {
+    if (!await ConnectivityService.hasInternet) {
+      return left(NetworkFailure('No internet connection'));
+    }
+
     try {
       final result = await request();
       return right(result);

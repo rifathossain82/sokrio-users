@@ -17,7 +17,7 @@ class ApiClient {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'x-api-key' : 'reqres-free-v1',
+        'x-api-key': 'reqres-free-v1',
       },
     );
 

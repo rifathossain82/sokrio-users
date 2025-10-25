@@ -22,6 +22,7 @@ class UserItemWidget extends StatelessWidget {
       title: Text(user.fullName),
       subtitle: Text(user.email),
       onTap: () {
+        KeyboardUtils.hideKeyboard();
         context.pushNamed(
           AppRoutes.userDetails,
           pathParameters: {'id': user.id.toString()},

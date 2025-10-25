@@ -15,7 +15,7 @@ extension PaginatedStateX<T> on PaginatedState<T> {
   bool get hasMessage => message.isNotEmpty;
 
   bool get shouldShowErrorMessage {
-    return isFailure && hasMessage;
+    return hasMessage;
   }
 
   bool get shouldShowSuccessMessage {
