@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sokrio_users/src/features/users/domain/entities/user.dart';
+import 'package:sokrio_users/src/features/users/presentation/pages/user_details_page.dart';
 import 'package:sokrio_users/src/features/users/presentation/pages/user_list_page.dart';
 
 import 'app_routes.dart';
@@ -27,7 +29,20 @@ class NavigationManager {
     final routes = [
       GoRoute(
         path: AppRoutes.userList,
-        pageBuilder: (context, state) => getPage(child: UserListPage(), state: state),
+        pageBuilder: (context, state) =>
+            getPage(child: UserListPage(), state: state),
+      ),
+      GoRoute(
+        name: AppRoutes.userDetails,
+        path: "${AppRoutes.userDetails}/:id",
+        pageBuilder: (context, state) {
+          final user = state.extra as User;
+
+          return getPage(
+            child: UserDetailsPage(user: user),
+            state: state,
+          );
+        },
       ),
     ];
 

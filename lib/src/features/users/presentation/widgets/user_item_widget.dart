@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sokrio_users/src/core/core.dart';
 import 'package:sokrio_users/src/features/users/domain/entities/user.dart';
 
@@ -20,7 +21,13 @@ class UserItemWidget extends StatelessWidget {
       ),
       title: Text(user.fullName),
       subtitle: Text(user.email),
-      onTap: () {},
+      onTap: () {
+        context.pushNamed(
+          AppRoutes.userDetails,
+          pathParameters: {'id': user.id.toString()},
+          extra: user,
+        );
+      },
     );
   }
 }
