@@ -6,7 +6,7 @@ import 'package:sokrio_users/src/core/core.dart';
 import 'package:sokrio_users/src/features/users/domain/entities/user.dart';
 import 'package:sokrio_users/src/features/users/presentation/widgets/user_item_widget.dart';
 
-import '../../../../mocks/mock_go_router.mocks.dart';
+import '../../../../mocks/helpers/mock_go_router.mocks.dart';
 
 void main() {
   late User testUser;
