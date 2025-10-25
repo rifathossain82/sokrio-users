@@ -1,11 +1,9 @@
 import 'package:hive/hive.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:sokrio_users/src/features/users/domain/entities/user.dart';
 
 part 'user_model.g.dart';
 
 @HiveType(typeId: 0)
-@JsonSerializable(createToJson: false)
 class UserModel extends User {
   @HiveField(0)
   final int id;
@@ -14,22 +12,20 @@ class UserModel extends User {
   final String email;
 
   @HiveField(2)
-  @JsonKey(name: 'first_name')
   final String firstName;
 
   @HiveField(3)
-  @JsonKey(name: 'last_name')
   final String lastName;
 
   @HiveField(4)
   final String avatar;
 
-  const UserModel({
-    required this.id,
-    required this.email,
-    required this.firstName,
-    required this.lastName,
-    required this.avatar,
+  UserModel({
+    this.id = 0,
+    this.email = '',
+    this.firstName = '',
+    this.lastName = '',
+    this.avatar = '',
   }) : super(
     id: id,
     email: email,
@@ -38,18 +34,20 @@ class UserModel extends User {
     avatar: avatar,
   );
 
-  /// Factory for JSON serialization
-  factory UserModel.fromJson(Map<String, dynamic> json) =>
-      _$UserModelFromJson(json);
-
-  @override
-  List<Object> get props => [id, email, firstName, lastName, avatar];
-
-  User toEntity() => User(
-    id: id,
-    email: email,
-    firstName: firstName,
-    lastName: lastName,
-    avatar: avatar,
+  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+    id: json['id'] as int,
+    email: json['email'] as String,
+    firstName: json['first_name'] as String,
+    lastName: json['last_name'] as String,
+    avatar: json['avatar'] as String,
   );
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'email': email,
+    'first_name': firstName,
+    'last_name': lastName,
+    'avatar': avatar,
+  };
 }
+
