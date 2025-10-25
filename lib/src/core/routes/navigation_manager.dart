@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sokrio_users/src/features/users/presentation/pages/user_list_page.dart';
 
 import 'app_routes.dart';
 
@@ -25,12 +26,12 @@ class NavigationManager {
   NavigationManager._internal() {
     final routes = [
       GoRoute(
-        path: AppRoutes.home,
-        builder: (context, state) => const ColoredBox(color: Colors.red),
+        path: AppRoutes.userList,
+        pageBuilder: (context, state) => getPage(child: UserListPage(), state: state),
       ),
     ];
 
-    router = GoRouter(initialLocation: AppRoutes.home, routes: routes);
+    router = GoRouter(initialLocation: AppRoutes.userList, routes: routes);
   }
 
   static Page getPage({required Widget child, required GoRouterState state}) {
