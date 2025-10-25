@@ -25,82 +25,95 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     LoadUsersEvent event,
     Emitter<UserState> emit,
   ) async {
-    emit(state.copyWith.users(status: Status.loading));
+    try {
+      emit(state.copyWith.users(status: Status.loading));
 
-    final result = await getUsers(1);
+      final result = await getUsers(1);
 
-    await result.fold(
-      (failure) async {
-        final cached = await getCachedUsers();
-        cached.fold(
-          (cacheFail) => emit(
+      await result.fold(
+        (failure) async {
+          final cached = await getCachedUsers();
+          cached.fold(
+            (cacheFail) {
+              emit(
+                state.copyWith.users(
+                  status: Status.failure,
+                  message: cacheFail.message,
+                ),
+              );
+            },
+            (cachedUsers) {
+              _allUsers = cachedUsers;
+              emit(
+                state.copyWith.users(
+                  status: Status.success,
+                  message: failure.message,
+                  items: cachedUsers,
+                  currentPage: 1,
+                  hasMore: false,
+                  isOffline: true,
+                ),
+              );
+            },
+          );
+        },
+        (users) {
+          _allUsers = users;
+          emit(
             state.copyWith.users(
-              status: Status.failure,
-              message: failure.message,
+              status: Status.success,
+              items: users,
+              currentPage: 1,
+              hasMore: users.length == 10,
+              isOffline: false,
             ),
-          ),
-          (cachedUsers) {
-            _allUsers = cachedUsers;
-            emit(
-              state.copyWith.users(
-                status: Status.success,
-                items: cachedUsers,
-                currentPage: 1,
-                hasMore: false,
-                isOffline: true,
-              ),
-            );
-          },
-        );
-      },
-      (users) {
-        _allUsers = users;
-        emit(
-          state.copyWith.users(
-            status: Status.success,
-            items: users,
-            currentPage: 1,
-            hasMore: users.length == 10,
-            isOffline: false,
-          ),
-        );
-      },
-    );
+          );
+        },
+      );
+    } catch (e, stack) {
+      Log.error('User Bloc Error: $e\n$stack');
+      emit(state.copyWith.users(status: Status.failure, message: e.toString()));
+    }
   }
 
   Future<void> _onLoadMoreUsers(
     LoadMoreUsersEvent event,
     Emitter<UserState> emit,
   ) async {
-    final current = state.users;
+    try {
+      final current = state.users;
 
-    if (current.isFetchingMore || !current.hasMore) return;
+      if (current.isFetchingMore || !current.hasMore) return;
 
-    emit(state.copyWith.users(isFetchingMore: true));
+      emit(state.copyWith.users(isFetchingMore: true));
 
-    final nextPage = current.currentPage + 1;
-    final result = await getUsers(nextPage);
+      final nextPage = current.currentPage + 1;
+      final result = await getUsers(nextPage);
 
-    result.fold(
-      (failure) => emit(
-        state.copyWith.users(
-          isFetchingMore: false,
-          hasMore: false,
-          message: failure.message,
-        ),
-      ),
-      (newUsers) {
-        _allUsers = [..._allUsers, ...newUsers];
-        emit(
+      result.fold(
+        (failure) => emit(
           state.copyWith.users(
             isFetchingMore: false,
-            items: _allUsers,
-            currentPage: nextPage,
-            hasMore: newUsers.length == 10,
+            hasMore: false,
+            message: failure.message,
           ),
-        );
-      },
-    );
+        ),
+        (newUsers) {
+          _allUsers = [..._allUsers, ...newUsers];
+          emit(
+            state.copyWith.users(
+              isFetchingMore: false,
+              items: _allUsers,
+              currentPage: nextPage,
+              hasMore: newUsers.length == 10,
+            ),
+          );
+        },
+      );
+    } catch (e, st) {
+      Log.error('User Bloc Error: $e\n$st');
+      emit(state.copyWith.users(isFetchingMore: false, message: e.toString()));
+    }
   }
 
   Future<void> _onRefreshUsers(
@@ -115,30 +128,35 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     SearchUsersEvent event,
     Emitter<UserState> emit,
   ) async {
-    final query = event.query.trim().toLowerCase();
+    try {
+      final query = event.query.trim().toLowerCase();
 
-    if (query.isEmpty) {
-      emit(state.copyWith.users(items: _allUsers));
-      return;
-    }
+      if (query.isEmpty) {
+        emit(state.copyWith.users(items: _allUsers));
+        return;
+      }
 
-    /// remove extra spaces and special chars
-    ///
-    /// collapse multiple spaces into one
-    /// remove special characters
-    final normalizedQuery = query
-        .replaceAll(RegExp(r'\s+'), ' ')
-        .replaceAll(RegExp(r'[^a-z0-9\s]'), '');
-
-    final filtered = _allUsers.where((u) {
-      final normalizedName = u.fullName
-          .toLowerCase()
+      /// remove extra spaces and special chars
+      ///
+      /// collapse multiple spaces into one
+      /// remove special characters
+      final normalizedQuery = query
           .replaceAll(RegExp(r'\s+'), ' ')
           .replaceAll(RegExp(r'[^a-z0-9\s]'), '');
 
-      return normalizedName.contains(normalizedQuery);
-    }).toList();
+      final filtered = _allUsers.where((u) {
+        final normalizedName = u.fullName
+            .toLowerCase()
+            .replaceAll(RegExp(r'\s+'), ' ')
+            .replaceAll(RegExp(r'[^a-z0-9\s]'), '');
 
-    emit(state.copyWith.users(items: filtered, hasMore: false));
+        return normalizedName.contains(normalizedQuery);
+      }).toList();
+
+      emit(state.copyWith.users(items: filtered, hasMore: false));
+    } catch (e, st) {
+      Log.error('User Bloc Error: $e\n$st');
+      emit(state.copyWith.users(message: e.toString()));
+    }
   }
 }

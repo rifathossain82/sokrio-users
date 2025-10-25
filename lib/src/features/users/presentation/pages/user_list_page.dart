@@ -92,7 +92,7 @@ class _UserListPageState extends State<UserListPage> with InfiniteScrollMixin {
                     return FailureWidgetBuilder(
                       title: 'No users found!',
                       onRetry: () {
-                        context.read<UserBloc>().add(LoadUsersEvent());
+                        userBloc.add(LoadUsersEvent());
                       },
                     );
                   }

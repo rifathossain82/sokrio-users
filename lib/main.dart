@@ -14,8 +14,12 @@ Future<void> main() async {
   /// Initialize dependency injection container
   await init();
 
+  /// Initialize Hive
   await Hive.initFlutter();
   Hive.registerAdapter(UserModelAdapter());
+
+  /// Enable edge-to-edge mode
+  SystemUiController.enableEdgeToEdge();
 
   runApp(const MyApp());
 }

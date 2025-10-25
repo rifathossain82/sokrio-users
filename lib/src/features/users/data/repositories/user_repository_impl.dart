@@ -16,17 +16,13 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<Either<Failure, List<User>>> getUsers(int page) async {
-    if (await ConnectivityService.hasInternet) {
-      return ApiHelper.safeApiCall(() async {
-        final response = await remoteDataSource.getUsers(page);
-        if (page == 1) {
-          await localDataSource.cacheUsers(response);
-        }
-        return response;
-      });
-    } else {
-      return Left(NetworkFailure('No internet connection'));
-    }
+    return ApiHelper.safeApiCall(() async {
+      final response = await remoteDataSource.getUsers(page);
+      if (page == 1) {
+        await localDataSource.cacheUsers(response);
+      }
+      return response;
+    });
   }
 
   @override
@@ -36,6 +32,8 @@ class UserRepositoryImpl implements UserRepository {
       return Right(users);
     } on CacheException catch (e) {
       return Left(CacheFailure(e.message));
+    } catch (e) {
+      return Left(UnknownFailure(e.toString()));
     }
   }
 }

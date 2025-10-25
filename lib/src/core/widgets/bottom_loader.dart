@@ -9,7 +9,7 @@ class BottomLoader extends StatelessWidget {
       alignment: Alignment.center,
       child: Center(
         child: Padding(
-          padding: EdgeInsets.all(15.0),
+          padding: EdgeInsets.all(8.0),
           child: SizedBox(
             height: 24,
             width: 24,
