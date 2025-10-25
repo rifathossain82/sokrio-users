@@ -23,10 +23,14 @@ class NavigationManager {
   }
 
   NavigationManager._internal() {
-    // final routes = [
-    // ];
-    //
-    // router = GoRouter(initialLocation: AppRoutes.home, routes: routes);
+    final routes = [
+      GoRoute(
+        path: AppRoutes.home,
+        builder: (context, state) => const ColoredBox(color: Colors.red),
+      ),
+    ];
+
+    router = GoRouter(initialLocation: AppRoutes.home, routes: routes);
   }
 
   static Page getPage({required Widget child, required GoRouterState state}) {
