@@ -9,15 +9,6 @@ class AppColors {
   static const warning = Color(0xFFFFC107);
   static const info = Color(0xFF17A2B8);
 
-  // Enum-based mapping (see below)
-  static const pending = Color(0xFF00BCD4);
-  static const delivered = Color(0xFF4CAF50);
-  static const cancelled = Color(0xFFF44336);
-
-  // Branding / other
-  static const facebookBlue = Color(0xFF1877F2);
-  static const googleRed = Color(0xFFEA4335);
-
   // Standard colors
   static const transparent = Colors.transparent;
   static const white = Colors.white;
