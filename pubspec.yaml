@@ -38,6 +38,24 @@ dependencies:
   dio_smart_retry: ^7.0.1
 
 
+# Flutter Splash Screen Setup
+#
+# This configuration helps you create a splash screen for your Flutter project.
+#
+# Instructions:
+# 1. Add the following configuration to your pubspec.yaml file.
+# 2. Run the command: fvm dart run flutter_native_splash:create
+# 3. If you make any changes to the splash screen configuration, re-run the command.
+#
+# Current-Configuration:
+flutter_native_splash:
+  android: true
+  ios: true
+  color: "#FFFFFF"
+  image: assets/images/splash_logo.png
+  android_12:
+    image: assets/images/splash_logo.png
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -48,3 +66,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/lotties/
