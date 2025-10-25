@@ -118,6 +118,26 @@ fvm flutter build appbundle --release --obfuscate --split-debug-info=build/app/s
 
 > **Note**: This project uses [FVM (Flutter Version Management)](https://fvm.app/) to manage Flutter versions. All Flutter commands should be prefixed with `fvm` (e.g., `fvm flutter run`). If you prefer not to use FVM, ensure you have Flutter 3.35.2 or higher installed globally.
 
+## Download APK
+
+You can download and install the pre-built APK files directly:
+
+### Choose the right APK for your device:
+
+| Architecture | File Size | Download Link | Description |
+|--------------|-----------|---------------|-------------|
+| **ARM64-v8a** (Recommended) | 17.0 MB | [Download](https://drive.google.com/file/d/1rHZ4ptwHfzdra0ZCTgVRLPZqozZzoRS5/view?usp=sharing) | For most modern Android devices (2017+) |
+| **ARMv7** | 14.3 MB | [Download](https://drive.google.com/file/d/1qfjIziEybVAmXb8HhYGCbZ_Uny7ZjzfH/view?usp=drive_link) | For older 32-bit Android devices |
+| **x86_64** | 18.2 MB | [Download](https://drive.google.com/file/d/1SO74iyJqbWHMcWQXyaznx7Nu4SOQYINv/view?usp=drive_link) | For Android emulators and Intel-based devices |
+| **Universal APK** | ~49.5 MB | [Download](https://drive.google.com/file/d/1lnCgrWJpC2RE5Rdmt-GkrF2GJIe1SHJ7/view?usp=drive_link) | Works on all devices (larger file size) |
+
+### How to install:
+1. Download the appropriate APK for your device
+2. Enable "Install from Unknown Sources" in your Android settings
+3. Open the downloaded APK file and follow the installation prompts
+
+> **Note**: If you're unsure which version to download, use the **ARM64-v8a** APK as it works on most modern Android devices. Alternatively, download the **Universal APK** which works on all devices but has a larger file size.
+
 ## Project Structure
 ```
 lib/
