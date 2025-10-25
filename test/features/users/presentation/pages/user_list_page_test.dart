@@ -71,7 +71,7 @@ void main() {
       );
 
       await tester.pumpWidget(buildTestWidget());
-      await tester.pump(Duration(seconds: 3));
+      await tester.pump(Duration(milliseconds: 100));
 
       expect(find.byType(KCustomLoader), findsOneWidget);
       verify(mockUserBloc.add(const LoadUsersEvent())).called(1);
@@ -94,7 +94,7 @@ void main() {
       );
 
       await tester.pumpWidget(buildTestWidget());
-      await tester.pumpAndSettle(Duration(seconds: 3));
+      await tester.pumpAndSettle(Duration(milliseconds: 100));
 
       /// Verify user list is rendered
       expect(find.byType(UserListWidget), findsOneWidget);
