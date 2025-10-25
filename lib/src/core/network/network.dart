@@ -1,4 +1,4 @@
-export 'constants/api_endpoints.dart';
+export 'constants/api_constants.dart';
 export 'client/api_client.dart';
 export 'service/api_service.dart';
 export 'interceptors/network_logger_interceptor.dart';
