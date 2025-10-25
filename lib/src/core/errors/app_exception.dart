@@ -74,3 +74,8 @@ class ParseException extends AppException {
 class UnknownException extends AppException {
   const UnknownException([super.message = 'Unknown error occurred']);
 }
+
+/// Cache error
+class CacheException extends AppException {
+  const CacheException([super.message = 'Cache error']);
+}
