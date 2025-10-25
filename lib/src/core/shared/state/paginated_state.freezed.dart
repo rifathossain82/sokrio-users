@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PaginatedState<T> {
 
- Status get status; List<T> get items; int get currentPage; int get total; int get pageSize; bool get isFetchingMore; bool get hasMore; String get message;
+ Status get status; List<T> get items; int get currentPage; bool get isFetchingMore; bool get hasMore; bool get isOffline; String get message;
 /// Create a copy of PaginatedState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $PaginatedStateCopyWith<T, PaginatedState<T>> get copyWith => _$PaginatedStateCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaginatedState<T>&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage)&&(identical(other.total, total) || other.total == total)&&(identical(other.pageSize, pageSize) || other.pageSize == pageSize)&&(identical(other.isFetchingMore, isFetchingMore) || other.isFetchingMore == isFetchingMore)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaginatedState<T>&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage)&&(identical(other.isFetchingMore, isFetchingMore) || other.isFetchingMore == isFetchingMore)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore)&&(identical(other.isOffline, isOffline) || other.isOffline == isOffline)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(items),currentPage,total,pageSize,isFetchingMore,hasMore,message);
+int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(items),currentPage,isFetchingMore,hasMore,isOffline,message);
 
 @override
 String toString() {
-  return 'PaginatedState<$T>(status: $status, items: $items, currentPage: $currentPage, total: $total, pageSize: $pageSize, isFetchingMore: $isFetchingMore, hasMore: $hasMore, message: $message)';
+  return 'PaginatedState<$T>(status: $status, items: $items, currentPage: $currentPage, isFetchingMore: $isFetchingMore, hasMore: $hasMore, isOffline: $isOffline, message: $message)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $PaginatedStateCopyWith<T,$Res>  {
   factory $PaginatedStateCopyWith(PaginatedState<T> value, $Res Function(PaginatedState<T>) _then) = _$PaginatedStateCopyWithImpl;
 @useResult
 $Res call({
- Status status, List<T> items, int currentPage, int total, int pageSize, bool isFetchingMore, bool hasMore, String message
+ Status status, List<T> items, int currentPage, bool isFetchingMore, bool hasMore, bool isOffline, String message
 });
 
 
@@ -62,15 +62,14 @@ class _$PaginatedStateCopyWithImpl<T,$Res>
 
 /// Create a copy of PaginatedState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? items = null,Object? currentPage = null,Object? total = null,Object? pageSize = null,Object? isFetchingMore = null,Object? hasMore = null,Object? message = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? items = null,Object? currentPage = null,Object? isFetchingMore = null,Object? hasMore = null,Object? isOffline = null,Object? message = null,}) {
   return _then(_self.copyWith(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as Status,items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
 as List<T>,currentPage: null == currentPage ? _self.currentPage : currentPage // ignore: cast_nullable_to_non_nullable
-as int,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
-as int,pageSize: null == pageSize ? _self.pageSize : pageSize // ignore: cast_nullable_to_non_nullable
 as int,isFetchingMore: null == isFetchingMore ? _self.isFetchingMore : isFetchingMore // ignore: cast_nullable_to_non_nullable
 as bool,hasMore: null == hasMore ? _self.hasMore : hasMore // ignore: cast_nullable_to_non_nullable
+as bool,isOffline: null == isOffline ? _self.isOffline : isOffline // ignore: cast_nullable_to_non_nullable
 as bool,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,
   ));
@@ -154,10 +153,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Status status,  List<T> items,  int currentPage,  int total,  int pageSize,  bool isFetchingMore,  bool hasMore,  String message)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Status status,  List<T> items,  int currentPage,  bool isFetchingMore,  bool hasMore,  bool isOffline,  String message)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PaginatedState() when $default != null:
-return $default(_that.status,_that.items,_that.currentPage,_that.total,_that.pageSize,_that.isFetchingMore,_that.hasMore,_that.message);case _:
+return $default(_that.status,_that.items,_that.currentPage,_that.isFetchingMore,_that.hasMore,_that.isOffline,_that.message);case _:
   return orElse();
 
 }
@@ -175,10 +174,10 @@ return $default(_that.status,_that.items,_that.currentPage,_that.total,_that.pag
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Status status,  List<T> items,  int currentPage,  int total,  int pageSize,  bool isFetchingMore,  bool hasMore,  String message)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Status status,  List<T> items,  int currentPage,  bool isFetchingMore,  bool hasMore,  bool isOffline,  String message)  $default,) {final _that = this;
 switch (_that) {
 case _PaginatedState():
-return $default(_that.status,_that.items,_that.currentPage,_that.total,_that.pageSize,_that.isFetchingMore,_that.hasMore,_that.message);}
+return $default(_that.status,_that.items,_that.currentPage,_that.isFetchingMore,_that.hasMore,_that.isOffline,_that.message);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -192,10 +191,10 @@ return $default(_that.status,_that.items,_that.currentPage,_that.total,_that.pag
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Status status,  List<T> items,  int currentPage,  int total,  int pageSize,  bool isFetchingMore,  bool hasMore,  String message)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Status status,  List<T> items,  int currentPage,  bool isFetchingMore,  bool hasMore,  bool isOffline,  String message)?  $default,) {final _that = this;
 switch (_that) {
 case _PaginatedState() when $default != null:
-return $default(_that.status,_that.items,_that.currentPage,_that.total,_that.pageSize,_that.isFetchingMore,_that.hasMore,_that.message);case _:
+return $default(_that.status,_that.items,_that.currentPage,_that.isFetchingMore,_that.hasMore,_that.isOffline,_that.message);case _:
   return null;
 
 }
@@ -207,7 +206,7 @@ return $default(_that.status,_that.items,_that.currentPage,_that.total,_that.pag
 
 
 class _PaginatedState<T> implements PaginatedState<T> {
-  const _PaginatedState({this.status = Status.initial, final  List<T> items = const [], this.currentPage = 0, this.total = 0, this.pageSize = 0, this.isFetchingMore = false, this.hasMore = false, this.message = ''}): _items = items;
+  const _PaginatedState({this.status = Status.initial, final  List<T> items = const [], this.currentPage = 0, this.isFetchingMore = false, this.hasMore = false, this.isOffline = false, this.message = ''}): _items = items;
   
 
 @override@JsonKey() final  Status status;
@@ -219,10 +218,9 @@ class _PaginatedState<T> implements PaginatedState<T> {
 }
 
 @override@JsonKey() final  int currentPage;
-@override@JsonKey() final  int total;
-@override@JsonKey() final  int pageSize;
 @override@JsonKey() final  bool isFetchingMore;
 @override@JsonKey() final  bool hasMore;
+@override@JsonKey() final  bool isOffline;
 @override@JsonKey() final  String message;
 
 /// Create a copy of PaginatedState
@@ -235,16 +233,16 @@ _$PaginatedStateCopyWith<T, _PaginatedState<T>> get copyWith => __$PaginatedStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaginatedState<T>&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage)&&(identical(other.total, total) || other.total == total)&&(identical(other.pageSize, pageSize) || other.pageSize == pageSize)&&(identical(other.isFetchingMore, isFetchingMore) || other.isFetchingMore == isFetchingMore)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaginatedState<T>&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage)&&(identical(other.isFetchingMore, isFetchingMore) || other.isFetchingMore == isFetchingMore)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore)&&(identical(other.isOffline, isOffline) || other.isOffline == isOffline)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(_items),currentPage,total,pageSize,isFetchingMore,hasMore,message);
+int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(_items),currentPage,isFetchingMore,hasMore,isOffline,message);
 
 @override
 String toString() {
-  return 'PaginatedState<$T>(status: $status, items: $items, currentPage: $currentPage, total: $total, pageSize: $pageSize, isFetchingMore: $isFetchingMore, hasMore: $hasMore, message: $message)';
+  return 'PaginatedState<$T>(status: $status, items: $items, currentPage: $currentPage, isFetchingMore: $isFetchingMore, hasMore: $hasMore, isOffline: $isOffline, message: $message)';
 }
 
 
@@ -255,7 +253,7 @@ abstract mixin class _$PaginatedStateCopyWith<T,$Res> implements $PaginatedState
   factory _$PaginatedStateCopyWith(_PaginatedState<T> value, $Res Function(_PaginatedState<T>) _then) = __$PaginatedStateCopyWithImpl;
 @override @useResult
 $Res call({
- Status status, List<T> items, int currentPage, int total, int pageSize, bool isFetchingMore, bool hasMore, String message
+ Status status, List<T> items, int currentPage, bool isFetchingMore, bool hasMore, bool isOffline, String message
 });
 
 
@@ -272,15 +270,14 @@ class __$PaginatedStateCopyWithImpl<T,$Res>
 
 /// Create a copy of PaginatedState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? items = null,Object? currentPage = null,Object? total = null,Object? pageSize = null,Object? isFetchingMore = null,Object? hasMore = null,Object? message = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? items = null,Object? currentPage = null,Object? isFetchingMore = null,Object? hasMore = null,Object? isOffline = null,Object? message = null,}) {
   return _then(_PaginatedState<T>(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as Status,items: null == items ? _self._items : items // ignore: cast_nullable_to_non_nullable
 as List<T>,currentPage: null == currentPage ? _self.currentPage : currentPage // ignore: cast_nullable_to_non_nullable
-as int,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
-as int,pageSize: null == pageSize ? _self.pageSize : pageSize // ignore: cast_nullable_to_non_nullable
 as int,isFetchingMore: null == isFetchingMore ? _self.isFetchingMore : isFetchingMore // ignore: cast_nullable_to_non_nullable
 as bool,hasMore: null == hasMore ? _self.hasMore : hasMore // ignore: cast_nullable_to_non_nullable
+as bool,isOffline: null == isOffline ? _self.isOffline : isOffline // ignore: cast_nullable_to_non_nullable
 as bool,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,
   ));

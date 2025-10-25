@@ -9,10 +9,9 @@ sealed class PaginatedState<T> with _$PaginatedState<T> {
     @Default(Status.initial) Status status,
     @Default([]) List<T> items,
     @Default(0) int currentPage,
-    @Default(0) int total,
-    @Default(0) int pageSize,
     @Default(false) bool isFetchingMore,
     @Default(false) bool hasMore,
+    @Default(false) bool isOffline,
     @Default('') String message,
   }) = _PaginatedState<T>;
 }
