@@ -1,8 +1,24 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 /// A utility class to manage system UI overlays like the status bar and navigation bar.
 class SystemUiController {
   const SystemUiController._();
+
+  /// Enable Android 15 compatible edge-to-edge mode
+  static void enableEdgeToEdge() {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
+    /// Transparent overlays → Let Flutter draw under them
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Colors.transparent,
+        systemNavigationBarDividerColor: Colors.transparent,
+      ),
+    );
+  }
+
 
   /// Hides only the status bar. Keeps the navigation bar visible.
   static void hideStatusBar() {

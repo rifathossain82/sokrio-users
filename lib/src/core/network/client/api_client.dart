@@ -12,8 +12,8 @@ class ApiClient {
   ApiClient._internal() {
     final baseOptions = BaseOptions(
       baseUrl: ApiConstants.baseUrl,
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 15),
+      connectTimeout: Duration(milliseconds: ApiConstants.connectionTimeout),
+      receiveTimeout: Duration(seconds: ApiConstants.receiveTimeout),
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -36,7 +36,6 @@ class ApiClient {
       NetworkRetryInterceptor(dio: dio),
       NetworkLoggerInterceptor(),
       ErrorInterceptor(),
-      // TokenInterceptor(tokenManager: TokenManager()),
     ]);
   }
 }
