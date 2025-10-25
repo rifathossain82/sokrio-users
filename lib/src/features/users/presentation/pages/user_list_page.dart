@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sokrio_users/src/core/widgets/offline_mode_banner.dart';
 import 'package:sokrio_users/src/features/users/presentation/bloc/user_bloc.dart';
 import 'package:sokrio_users/src/core/core.dart';
 import 'package:sokrio_users/src/features/users/presentation/bloc/user_event.dart';
@@ -46,56 +45,62 @@ class _UserListPageState extends State<UserListPage> with InfiniteScrollMixin {
     await userBloc.stream.firstWhere((state) => !state.users.isLoading);
   }
 
+  void onSearch(String query) {
+    userBloc.add(SearchUsersEvent(query));
+  }
+
+  void onClear() {
+    context.unFocusKeyboard();
+    searchController.clear();
+    userBloc.add(const SearchUsersEvent(''));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Users')),
       body: CustomRefreshIndicator(
         onRefresh: _onRefresh,
-        child: BlocConsumer<UserBloc, UserState>(
-          listenWhen: (previous, current) =>
-              current.users.shouldShowErrorMessage,
-          listener: (context, state) {
-            if (state.users.message.isNotEmpty) {
-              SnackBarService.show(
-                message: state.users.message,
-                type: SnackBarType.error,
-              );
-            }
-          },
-          builder: (context, state) {
-            final usersState = state.users;
+        child: Column(
+          children: [
+            UserSearchField(
+              controller: searchController,
+              hintText: 'Search users...',
+              onChanged: onSearch,
+              onClear: onClear,
+            ),
+            Expanded(
+              child: BlocConsumer<UserBloc, UserState>(
+                listenWhen: (previous, current) =>
+                    current.users.shouldShowErrorMessage,
+                listener: (context, state) {
+                  if (state.users.message.isNotEmpty) {
+                    SnackBarService.show(
+                      message: state.users.message,
+                      type: SnackBarType.error,
+                    );
+                  }
+                },
+                builder: (context, state) {
+                  final usersState = state.users;
 
-            if (usersState.isLoading) {
-              return const KCustomLoader();
-            }
+                  if (usersState.isLoading) {
+                    return const KCustomLoader();
+                  }
 
-            if (usersState.isEmpty) {
-              return const FailureWidgetBuilder(title: 'No users found!');
-            }
+                  if (usersState.isEmpty) {
+                    return const FailureWidgetBuilder(title: 'No users found!');
+                  }
 
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: UserSearchField(
-                    controller: searchController,
-                    hintText: 'Search users...',
-                    onChanged: (value) => userBloc.add(SearchUsersEvent(value)),
-                    onClear: () => userBloc.add(const SearchUsersEvent('')),
-                  ),
-                ),
-                if (usersState.isOffline) const OfflineModeBanner(),
-                Expanded(
-                  child: UserListWidget(
+                  return UserListWidget(
                     users: usersState.items,
                     scrollController: scrollController,
                     hasMore: usersState.hasMore,
-                  ),
-                ),
-              ],
-            );
-          },
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

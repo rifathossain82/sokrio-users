@@ -115,15 +115,30 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     SearchUsersEvent event,
     Emitter<UserState> emit,
   ) async {
-    if (event.query.isEmpty) {
+    final query = event.query.trim().toLowerCase();
+
+    if (query.isEmpty) {
       emit(state.copyWith.users(items: _allUsers));
-    } else {
-      final filtered = _allUsers
-          .where(
-            (u) => u.fullName.toLowerCase().contains(event.query.toLowerCase()),
-          )
-          .toList();
-      emit(state.copyWith.users(items: filtered, hasMore: false));
+      return;
     }
+
+    /// remove extra spaces and special chars
+    ///
+    /// collapse multiple spaces into one
+    /// remove special characters
+    final normalizedQuery = query
+        .replaceAll(RegExp(r'\s+'), ' ')
+        .replaceAll(RegExp(r'[^a-z0-9\s]'), '');
+
+    final filtered = _allUsers.where((u) {
+      final normalizedName = u.fullName
+          .toLowerCase()
+          .replaceAll(RegExp(r'\s+'), ' ')
+          .replaceAll(RegExp(r'[^a-z0-9\s]'), '');
+
+      return normalizedName.contains(normalizedQuery);
+    }).toList();
+
+    emit(state.copyWith.users(items: filtered, hasMore: false));
   }
 }

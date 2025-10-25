@@ -16,19 +16,32 @@ class UserSearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        hintText: hintText,
-        prefixIcon: const Icon(Icons.search),
-        suffixIcon: controller.text.isNotEmpty
-            ? IconButton(icon: const Icon(Icons.clear), onPressed: onClear)
-            : null,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-        filled: true,
-        fillColor: Colors.grey[100],
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: ValueListenableBuilder<TextEditingValue>(
+        valueListenable: controller,
+        builder: (context, value, child) {
+          return TextField(
+            controller: controller,
+            decoration: InputDecoration(
+              hintText: hintText,
+              prefixIcon: const Icon(Icons.search),
+              suffixIcon: value.text.isNotEmpty
+                  ? IconButton(
+                      icon: const Icon(Icons.clear),
+                      onPressed: onClear,
+                    )
+                  : null,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              filled: true,
+              fillColor: Colors.grey[100],
+            ),
+            onChanged: onChanged,
+          );
+        },
       ),
-      onChanged: onChanged,
     );
   }
 }
