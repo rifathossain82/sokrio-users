@@ -104,6 +104,18 @@ Or check the current Flutter version:
    fvm flutter run
 ```
 
+## Build Instructions
+
+### Build APK (Release)
+```bash
+fvm flutter build apk --release --split-per-abi --obfuscate --split-debug-info=build/app/symbols
+```
+
+### Build App Bundle (Release)
+```bash
+fvm flutter build appbundle --release --obfuscate --split-debug-info=build/app/symbols
+```
+
 > **Note**: This project uses [FVM (Flutter Version Management)](https://fvm.app/) to manage Flutter versions. All Flutter commands should be prefixed with `fvm` (e.g., `fvm flutter run`). If you prefer not to use FVM, ensure you have Flutter 3.35.2 or higher installed globally.
 
 ## Project Structure
